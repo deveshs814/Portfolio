@@ -13,7 +13,7 @@ import { SiMongodb, SiTailwindcss } from "react-icons/si";
 import project1 from "../assets/HMS.png";
 import project2 from "../assets/LetsChat.png";
 import project3 from "../assets/StudentLMS frontend.png";
-import project4 from "../assets/DevTinder.png";
+import project4 from "../assets/Devtinder.png";
 import project5 from "../assets/Eatseasy.png";
 import project6 from "../assets/Let'sgetfit.png";
 
