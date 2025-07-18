@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
-// ✅ Adjust paths as per your folder structure
 import img1 from "../assets/dev1.jpg";
 import img2 from "../assets/dev2.jpg";
 import img3 from "../assets/dev3.jpg";
@@ -14,7 +13,6 @@ const HeroSection = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const el = useRef(null);
 
-  // ✅ Typed.js effect for name
   useEffect(() => {
     const typed = new Typed(el.current, {
       strings: ["I'm Devesh Shukla."],
@@ -27,7 +25,6 @@ const HeroSection = () => {
     return () => typed.destroy();
   }, []);
 
-  // ✅ Image swap every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % images.length);
@@ -40,27 +37,26 @@ const HeroSection = () => {
       id="hero"
       className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 pt-32 bg-gradient-to-br from-gray-900 via-black to-gray-950 text-white"
     >
-      {/* LEFT TEXT BLOCK */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1 }}
         className="md:w-1/2 text-center md:text-left pl-6 md:pl-16 mt-[-20px]"
       >
-        {/* Typewriter Name */}
+        
         <h1
           ref={el}
           className="text-4xl md:text-6xl font-extrabold text-cyan-400 drop-shadow-lg"
         ></h1>
 
-        {/* Subheading */}
+        
         <p className="mt-4 text-lg md:text-xl max-w-lg px-4 py-3 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 shadow-inner">
           A <span className="text-cyan-300 font-semibold">passionate</span>{" "}
           software developer, combines technical expertise with innovative
           problem-solving to deliver robust solutions that exceed expectations.
         </p>
 
-        {/* CTA Buttons */}
+        
         <div className="mt-6 flex gap-6 justify-center md:justify-start">
           <a
             href="https://github.com/deveshs814"
@@ -84,7 +80,7 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      {/* RIGHT IMAGE CARD */}
+   
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

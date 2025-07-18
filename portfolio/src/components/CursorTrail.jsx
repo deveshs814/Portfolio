@@ -1,53 +1,102 @@
 import React, { useEffect, useRef } from "react";
 
 const CursorTrail = () => {
-  const dotRef = useRef(null);
-  const pos = useRef({ x: 0, y: 0 });
+  const canvasRef = useRef(null);
+  const particles = useRef([]);
   const mouse = useRef({ x: 0, y: 0 });
+  const visible = useRef(true);
 
   useEffect(() => {
-    const dot = dotRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationFrameId;
 
-    const moveMouse = (e) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-      dot.style.opacity = "1";
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
-    const hideCursor = () => {
-      dot.style.opacity = "0";
+    const createParticle = (x, y) => {
+      const size = Math.random() * 4 + 2;
+      particles.current.push({
+        x,
+        y,
+        size,
+        alpha: 1,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
+      });
     };
 
-    // Smooth trailing loop
-    const followMouse = () => {
-      pos.current.x += (mouse.current.x - pos.current.x) * 0.1;
-      pos.current.y += (mouse.current.y - pos.current.y) * 0.1;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      dot.style.transform = `translate3d(${pos.current.x}px, ${pos.current.y}px, 0)`;
+      particles.current.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.01;
 
-      requestAnimationFrame(followMouse);
+        if (p.alpha <= 0) {
+          particles.current.splice(i, 1);
+        } else {
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255, 105, 180, ${p.alpha})`;
+          ctx.shadowColor = "rgba(255, 105, 180, 0.6)";
+          ctx.shadowBlur = 10;
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("mousemove", moveMouse);
-    window.addEventListener("mouseout", hideCursor);
-    window.addEventListener("mouseenter", moveMouse);
+    const onMouseMove = (e) => {
+      if (!visible.current) {
+        canvas.style.display = "block";
+        visible.current = true;
+      }
 
-    followMouse();
+      mouse.current = { x: e.clientX, y: e.clientY };
+      for (let i = 0; i < 2; i++) {
+        createParticle(mouse.current.x, mouse.current.y);
+      }
+    };
+
+    const onMouseLeave = () => {
+      visible.current = false;
+      canvas.style.display = "none";
+      particles.current = [];
+    };
+
+    const onMouseEnter = () => {
+      visible.current = true;
+      canvas.style.display = "block";
+    };
+
+    resizeCanvas();
+    animate();
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("mouseenter", onMouseEnter);
 
     return () => {
-      window.removeEventListener("mousemove", moveMouse);
-      window.removeEventListener("mouseout", hideCursor);
-      window.removeEventListener("mouseenter", moveMouse);
+      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("mouseenter", onMouseEnter);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div
-      ref={dotRef}
-      className="fixed z-[9999] w-4 h-4 bg-pink-500 rounded-full pointer-events-none mix-blend-difference opacity-0 transition-opacity duration-300"
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full z-[9999] pointer-events-none"
     />
   );
 };
 
 export default CursorTrail;
-

@@ -16,11 +16,11 @@ import {
 
 const experiences = [
   {
-    company: "TechVerse Pvt Ltd",
+    company: "Sprite era Pvt Ltd",
     role: "Full Stack Developer",
     duration: "01 July 2024 - Present",
     description:
-      "Developed and maintained scalable web apps using the MERN stack. Collaborated with designers and DevOps for smooth deployment and UI/UX consistency.",
+      "A Full Stack Web Developer skilled in building scalable web applications using modern technologies. Experienced in frontend and backend development, database management, and API integration, contributing to robust, user-centric solutions in a collaborative company environment.",
     tech: [
       { icon: <FaReact className="text-sky-400" />, name: "React" },
       { icon: <FaNodeJs className="text-green-500" />, name: "Node.js" },
@@ -50,7 +50,7 @@ const ExperienceSection = () => {
             key={idx}
             className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-lg hover:shadow-cyan-800/20 transition-all duration-300"
           >
-            {/* Header: Company + Duration */}
+            
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
               <div>
                 <h3 className="text-2xl font-bold text-cyan-300">
@@ -63,12 +63,12 @@ const ExperienceSection = () => {
               </div>
             </div>
 
-            {/* Description */}
+            
             <p className="mt-4 text-gray-300 text-sm leading-relaxed">
               {exp.description}
             </p>
 
-            {/* Tech Stack Icons */}
+            
             <div className="flex flex-wrap gap-4 mt-5">
               {exp.tech.map((item, i) => (
                 <div
