@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.neon-text {
+  color: #00ffff;
+  text-shadow:
+    0 0 3px #00ffff,
+    0 0 6px #00ffff,
+    0 0 12px #00ffff,
+    0 0 24px #00ffff;
+}
